@@ -11,19 +11,32 @@ namespace SteamApp.Account
 {
     public partial class Register : Page
     {
+        private DatabaseConnection db = new DatabaseConnection();
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            ErrorReg.Visible = false;
+
+        }
         protected void CreateUser_Click(object sender, EventArgs e)
         {
-            var manager = new UserManager();
-            var user = new ApplicationUser() { UserName = UserName.Text };
-            IdentityResult result = manager.Create(user, Password.Text);
-            if (result.Succeeded)
+            RegisterCheck();
+        }
+
+        private void RegisterCheck()
+        {
+            db.RegSelect(RegisterName.Text);
+
+            if (db.Naam == null)
             {
-                IdentityHelper.SignIn(manager, user, isPersistent: false);
-                IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                db.AddUser(RegisterName.Text, ConfirmPassword.Text);
+
+                Response.Redirect("Login.aspx");
             }
-            else 
+
+            else
             {
-                ErrorMessage.Text = result.Errors.FirstOrDefault();
+                ErrorReg.Visible = true;
             }
         }
     }

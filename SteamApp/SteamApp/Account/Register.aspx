@@ -11,10 +11,10 @@
         <hr />
         <asp:ValidationSummary runat="server" CssClass="text-danger" />
         <div class="form-group">
-            <asp:Label runat="server" AssociatedControlID="UserName" CssClass="col-md-2 control-label">User name</asp:Label>
+            <asp:Label runat="server" AssociatedControlID="RegisterName" CssClass="col-md-2 control-label">User name</asp:Label>
             <div class="col-md-10">
-                <asp:TextBox runat="server" ID="UserName" CssClass="form-control" />
-                <asp:RequiredFieldValidator runat="server" ControlToValidate="UserName"
+                <asp:TextBox runat="server" ID="RegisterName" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="RegisterName"
                     CssClass="text-danger" ErrorMessage="The user name field is required." />
             </div>
         </div>
@@ -35,11 +35,13 @@
                 <asp:CompareValidator runat="server" ControlToCompare="Password" ControlToValidate="ConfirmPassword"
                     CssClass="text-danger" Display="Dynamic" ErrorMessage="The password and confirmation password do not match." />
             </div>
+           
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <asp:Button runat="server" OnClick="CreateUser_Click" Text="Register" CssClass="btn btn-default" />
             </div>
         </div>
+        <asp:Label ID="ErrorReg" runat="server" Text="Label"></asp:Label>
     </div>
 </asp:Content>

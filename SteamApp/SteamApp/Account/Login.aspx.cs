@@ -7,40 +7,74 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using SteamApp.Models;
+using Oracle.DataAccess.Client;
+using Oracle.DataAccess;
+using System.Configuration;
 
 namespace SteamApp.Account
 {
     public partial class Login : Page
     {
+        private DatabaseConnection db;
+        
         protected void Page_Load(object sender, EventArgs e)
         {
-            RegisterHyperLink.NavigateUrl = "Register";
-            OpenAuthLogin.ReturnUrl = Request.QueryString["ReturnUrl"];
-            var returnUrl = HttpUtility.UrlEncode(Request.QueryString["ReturnUrl"]);
-            if (!String.IsNullOrEmpty(returnUrl))
+            db = new DatabaseConnection();
+            if (!IsPostBack)
             {
-                RegisterHyperLink.NavigateUrl += "?ReturnUrl=" + returnUrl;
+                if (Request.Cookies["UserName"] != null && Request.Cookies["Password"] != null)
+                {
+                    UserName.Text = Request.Cookies["UserName"].Value;
+                    Password.Attributes["value"] = Request.Cookies["Password"].Value;
+                    RememberMe.Checked = true;
+                }
             }
+           
         }
 
         protected void LogIn(object sender, EventArgs e)
         {
-            if (IsValid)
+            SteamLogin();     
+        }
+
+        #region Login check
+
+        private void SteamLogin()
+        {
+
+            db.Login(UserName.Text, Password.Text);
+            if (db.Naam != null)
             {
-                // Validate the user password
-                var manager = new UserManager();
-                ApplicationUser user = manager.Find(UserName.Text, Password.Text);
-                if (user != null)
+                Session["Username"] = UserName.Text;
+                Session["Password"] = Password.Text;
+                Error.Visible = false;
+
+                if (RememberMe.Checked == true)
                 {
-                    IdentityHelper.SignIn(manager, user, RememberMe.Checked);
-                    IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                    Response.Cookies["UserName"].Expires = DateTime.Now.AddDays(30);
+                    Response.Cookies["Password"].Expires = DateTime.Now.AddDays(30);
+                  
                 }
                 else
                 {
-                    FailureText.Text = "Invalid username or password.";
-                    ErrorMessage.Visible = true;
+                    Response.Cookies["UserName"].Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies["Password"].Expires = DateTime.Now.AddDays(-1);
                 }
+
+                Response.Cookies["UserName"].Value = UserName.Text.Trim();
+                Response.Cookies["Password"].Value = Password.Text.Trim();
+
+                Response.Redirect("~/Default.aspx");
+            }
+            else
+            {
+                Error.Visible = true;
             }
         }
+
+        #endregion
+
+
+
     }
 }

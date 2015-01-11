@@ -9,8 +9,17 @@ namespace SteamApp
 {
     public partial class Contact : Page
     {
+        private DatabaseConnection db = new DatabaseConnection();
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["Username"] != null)
+            {
+                db.History(Grid1, Session["Username"].ToString());
+            }
+            else
+            {
+                Grid1 = null;
+            }
 
         }
     }
