@@ -22,7 +22,7 @@ namespace SteamApp
                 }
                 else
                 {
-                    Response.Redirect("~//Login.aspx");
+                    Response.Redirect("~/Account/Login.aspx");
                 }
             }
 

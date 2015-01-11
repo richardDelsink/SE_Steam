@@ -21,7 +21,7 @@ namespace SteamApp
         {
             if (Session["Username"] == null)
             {
-                Response.Redirect("~//Login.aspx");
+                Response.Redirect("~/Account/Login.aspx");
             }
         }
 
