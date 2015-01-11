@@ -22,6 +22,7 @@ namespace SteamApp
         }
 
         #region login select query
+        // kijken of er een iets wordt terug gegevn
         public string Login(string name, string password)
         {
 
@@ -127,7 +128,7 @@ namespace SteamApp
                 OracleCommand cmd = new OracleCommand();
                 cmd.Connection = conn;
                 cmd.CommandText = "SELECT i.ItemName, Product, IsCost FROM DB21_Account a, DB21_LibraryItem l, DB21_Item i WHERE l.UserID = a.UserID AND i.ItemID = l.ItemID AND Username =:name ORDER BY i.ITEMNAME";
-               cmd.Parameters.Add("Username", name);
+                cmd.Parameters.Add("Username", name);
                
                 OracleDataAdapter adapter = new OracleDataAdapter();
                 adapter.SelectCommand = cmd;
@@ -158,7 +159,7 @@ namespace SteamApp
         #region History
         public void History(GridView gv, string name)
         {
-
+            // koop history inzien 
             OracleConnection conn = new OracleConnection(ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString);
             try
             {
@@ -167,7 +168,7 @@ namespace SteamApp
                 conn.Open();
                 OracleCommand cmd = new OracleCommand();
                 cmd.Connection = conn;
-                cmd.CommandText = "SELECT ItemName, OrderDate, Price FROM DB21_Order o, DB21_Account a, DB21_Item i, DB21_Order_Regel ord WHERE o.OrderID = ord.OrderID AND o.UserID = a.UserID AND ord.ItemID = i.ItemID AND USername = :name ORDER BY ord.ItemName";
+                cmd.CommandText = "SELECT ItemName, OrderDate, Price FROM DB21_Order o, DB21_Account a, DB21_Item i, DB21_Order_Regel ord WHERE o.OrderID = ord.OrderID AND o.UserID = a.UserID AND ord.ItemID = i.ItemID AND USername = :name ORDER BY i.ItemName";
                 cmd.Parameters.Add("Username", name);
                 OracleDataAdapter adapter = new OracleDataAdapter();
                 adapter.SelectCommand = cmd;
@@ -192,5 +193,7 @@ namespace SteamApp
 
         }
         #endregion
+
+    
     }
 }

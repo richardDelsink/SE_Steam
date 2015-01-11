@@ -6838,3 +6838,8 @@ td.visible-print {
   }
 }
 
+.right {
+    margin-left: 300px;
+    margin-bottom: 700px;
+}
+

@@ -15,6 +15,7 @@ namespace SteamApp.Account
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            //erro msg 
             ErrorReg.Visible = false;
 
         }
@@ -23,8 +24,10 @@ namespace SteamApp.Account
             RegisterCheck();
         }
 
+        #region registercheck
         private void RegisterCheck()
         {
+            // als geslecteerd naam niet overeenkomt 
             db.RegSelect(RegisterName.Text);
 
             if (db.Naam == null)
@@ -39,5 +42,6 @@ namespace SteamApp.Account
                 ErrorReg.Visible = true;
             }
         }
+        #endregion
     }
 }

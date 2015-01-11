@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <p>
-                    <asp:HyperLink runat="server"  ID="RegisterHyperLink" ViewStateMode="Disabled">Register</asp:HyperLink>
+                    <asp:HyperLink runat="server"  ID="RegisterHyperLink" ViewStateMode="Disabled" NavigateUrl="~/Account/Register.aspx">Register</asp:HyperLink>
                     if you don't have an account.
                     <asp:Label ID="Error" runat="server" Text="Username or password is incorrect, please try again" Visible="False"></asp:Label>
                 </p>
